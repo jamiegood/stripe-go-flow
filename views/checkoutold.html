@@ -1,0 +1,59 @@
+
+
+
+<script src="https://js.stripe.com/v3/"></script>
+
+
+<script>
+var elements = stripe.elements();
+var cardElement = elements.create('card');
+cardElement.mount('#card-element');
+
+
+var cardholderName = document.getElementById('cardholder-name');
+var cardButton = document.getElementById('card-button');
+var clientSecret = cardButton.dataset.secret;
+
+cardButton.addEventListener('click', function(ev) {
+  stripe.handleCardPayment(
+    clientSecret, cardElement, {
+      payment_method_data: {
+        billing_details: {name: cardholderName.value}
+      }
+    }
+  ).then(function(result) {
+    if (result.error) {
+      // Display error.message in your UI.
+    } else {
+      // The payment has succeeded. Display a success message.
+    }
+  });
+});
+
+</script>
+
+
+<body onload="myFunction()">
+
+<form action="/charge" method="post" id="payment-form">
+  <div class="form-row">
+      <input id="cardholder-name" type="text">
+ 
+    <label for="card-element">
+      Credit or debit card
+    </label>
+    <div id="card-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+
+    <!-- Used to display form errors. -->
+    <div id="card-errors" role="alert"></div>
+  </div>
+
+  <button id="card-button" data-secret="{{ .ClientSecret }}">Submit Payment</button>
+</form>
+
+
+</body>
+
+

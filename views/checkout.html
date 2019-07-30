@@ -1,57 +1,41 @@
 
 
 
-<script src="https://js.stripe.com/v3/"></script>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title data-tid="elements_examples.meta.title">Stripe Elements: Build beautiful, smart checkout flows</title>
+  <meta data-tid="elements_examples.meta.description" name="description" content="Build beautiful, smart checkout flows.">
+  <!--
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon/180x180.png">
+  <link rel="icon" href="img/apple-touch-icon/180x180.png">
+ -->
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="js/index.js" data-rel-js></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="css/base.css" data-rel-css="" />
 
 
-<script>
-var elements = stripe.elements();
-var cardElement = elements.create('card');
-cardElement.mount('#card-element');
+  <!-- CSS for each example: -->
+  <link rel="stylesheet" type="text/css" href="css/example1.css" data-rel-css="" />
 
 
-var cardholderName = document.getElementById('cardholder-name');
-var cardButton = document.getElementById('card-button');
-var clientSecret = cardButton.dataset.secret;
-
-cardButton.addEventListener('click', function(ev) {
-  stripe.handleCardPayment(
-    clientSecret, cardElement, {
-      payment_method_data: {
-        billing_details: {name: cardholderName.value}
-      }
-    }
-  ).then(function(result) {
-    if (result.error) {
-      // Display error.message in your UI.
-    } else {
-      // The payment has succeeded. Display a success message.
-    }
-  });
-});
-
-</script>
-
-
-<body onload="myFunction()">
-
-<form action="/charge" method="post" id="payment-form">
-  <div class="form-row">
-      <input id="cardholder-name" type="text">
- 
-    <label for="card-element">
-      Credit or debit card
-    </label>
-    <div id="card-element">
-      <!-- A Stripe Element will be inserted here. -->
-    </div>
-
-    <!-- Used to display form errors. -->
-    <div id="card-errors" role="alert"></div>
-  </div>
-
-  <button id="card-button" data-secret="{{ .ClientSecret }}">Submit Payment</button>
-</form>
-
+</head>
+<body>
+  <input id="cardholder-name" type="text"></input>
+  <!-- placeholder for Elements -->
+  <div id="card-element"></div>
+  <button id="card-button" data-secret="{{ .ClientSecret }}">
+    Submit Payment
+  </button>
 
 </body>
+</html>

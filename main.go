@@ -15,11 +15,27 @@ type CheckoutData struct {
 }
 
 func main() {
-	stripe.Key = ""
+	stripe.Key = "sk_test_VFPOtLv8MJnV1a56b4UswQfh00HdXjfEVF"
+
+	//acct_1F0WADCRCcEx9KXQ
+
+	/*	params := &stripe.PaymentIntentParams{
+			Amount:   stripe.Int64(1099),
+			Currency: stripe.String(string(stripe.CurrencyEUR)),
+		}
+
+	*/
 
 	params := &stripe.PaymentIntentParams{
-		Amount:   stripe.Int64(1099),
+		PaymentMethodTypes: stripe.StringSlice([]string{
+			"card",
+		}),
+		Amount:   stripe.Int64(1000),
 		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		TransferData: &stripe.PaymentIntentTransferDataParams{
+			Amount:      stripe.Int64(877),
+			Destination: stripe.String("acct_1F0WADCRCcEx9KXQ"),
+		},
 	}
 	intentA, err := paymentintent.New(params)
 
@@ -41,6 +57,9 @@ func main() {
 		checkoutTmpl.Execute(w, data)
 	})
 
-	http.ListenAndServe(":3000", nil)
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/", fs)
+
+	http.ListenAndServe(":3666", nil)
 
 }
